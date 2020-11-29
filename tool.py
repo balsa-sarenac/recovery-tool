@@ -11,14 +11,18 @@ def recover_and_transform(path_to_backup, where_to_move):
 
 def iterate_though_backup(path_to_backup, where_to_move):
     for subdir, dirs, files in os.walk(path_to_backup):
-        # print(subdir)
+        location = subdir[subdir.index('Users'):][6:]
+        for directory in dirs:
+            new_dir = os.path.join(where_to_move, location, directory)
+            os.mkdir(new_dir)
         for file in files:
-            copy_file(subdir, file, where_to_move, new_name(file))
+            final_location = os.path.join(where_to_move, location, new_name(file))
+            copy_file(subdir, file, final_location)
 
 
-def copy_file(subdir, file, where_to_move, new_filename):
-    filename = os.path.join(subdir, file)
-    copyfile(filename, os.path.join(where_to_move, new_filename))
+def copy_file(subdir, file, new_location):
+    filename_location = os.path.join(subdir, file)
+    copyfile(filename_location, new_location)
 
 
 def new_name(file):
