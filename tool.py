@@ -5,16 +5,20 @@ from shutil import copyfile
 def recover_and_transform(path_to_backup, where_to_move):
     print("Moving recovery files from {} to {} and removing suffixes"
           .format(path_to_backup, where_to_move))
-    iterate_though_backup(path_to_backup)
+    iterate_though_backup(path_to_backup, where_to_move)
     return None
 
 
-def iterate_though_backup(path_to_backup):
+def iterate_though_backup(path_to_backup, where_to_move):
     for subdir, dirs, files in os.walk(path_to_backup):
-        print(files)
+        # print(subdir)
         for file in files:
-            print(new_name(file))
-    pass
+            copy_file(subdir, file, where_to_move, new_name(file))
+
+
+def copy_file(subdir, file, where_to_move, new_filename):
+    filename = os.path.join(subdir, file)
+    copyfile(filename, os.path.join(where_to_move, new_filename))
 
 
 def new_name(file):
