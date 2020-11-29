@@ -13,7 +13,13 @@ def iterate_though_backup(path_to_backup):
     for subdir, dirs, files in os.walk(path_to_backup):
         print(files)
         for file in files:
-            print(file)
+            print(new_name(file))
     pass
 
 
+def new_name(file):
+    name_start = file[:file.rindex('(') - 1]
+    if file.rfind('.') != -1:
+        return name_start + file[file.rindex('.'):]
+    else:
+        return name_start
